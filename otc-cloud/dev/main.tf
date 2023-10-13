@@ -4,7 +4,7 @@ module "vpc" {
   name               = "${var.context}-${var.stage}-vpc"
   cidr_block         = var.vpc_cidr
   enable_shared_snat = false
-  tags = local.tags
+  tags               = local.tags
 }
 
 module "snat" {
@@ -18,7 +18,7 @@ module "snat" {
 
 module "cce" {
   source  = "registry.terraform.io/iits-consulting/project-factory/opentelekomcloud//modules/cce"
-  version     = "5.7.1"
+  version = "5.7.1"
 
   name                           = "${var.context}-${var.stage}"
   cluster_vpc_id                 = module.vpc.vpc.id
@@ -45,7 +45,7 @@ module "cce" {
 
 module "loadbalancer" {
   source       = "registry.terraform.io/iits-consulting/project-factory/opentelekomcloud//modules/loadbalancer"
-  version     = "5.7.1"
+  version      = "5.7.1"
   context_name = var.context
   subnet_id    = module.vpc.subnets["kubernetes-subnet"].subnet_id
   stage_name   = var.stage
@@ -54,7 +54,7 @@ module "loadbalancer" {
 
 module "private_dns" {
   source  = "registry.terraform.io/iits-consulting/project-factory/opentelekomcloud//modules/private_dns"
-  version     = "5.7.1"
+  version = "5.7.1"
   domain  = "vpc.private"
   a_records = {
     kubernetes = [split(":", trimprefix(module.cce.cluster_private_ip, "https://"))[0]]
@@ -64,7 +64,7 @@ module "private_dns" {
 
 module "public_dns" {
   source  = "registry.terraform.io/iits-consulting/project-factory/opentelekomcloud//modules/public_dns"
-  version     = "5.7.1"
+  version = "5.7.1"
   domain  = var.domain_name
   email   = var.email
   a_records = {
@@ -73,13 +73,9 @@ module "public_dns" {
   }
 }
 
-module "encyrpted_secrets_bucket" {
-  providers         = { opentelekomcloud = opentelekomcloud.top_level_project }
-  source            = "registry.terraform.io/iits-consulting/project-factory/opentelekomcloud//modules/obs_secrets_writer"
-  version           = "5.7.1"
-  bucket_name       = replace(lower("${var.region}-${var.context}-${var.stage}-stage-secrets"), "_", "-")
-  bucket_object_key = "terraform-secrets"
-  secrets = {
+resource "local_file" "secrets" {
+  filename = "${path.module}/secrets.json"
+  content = jsonencode({
     elb_id                  = module.loadbalancer.elb_id
     elb_public_ip           = module.loadbalancer.elb_public_ip
     kubectl_config          = module.cce.kubeconfig
@@ -89,8 +85,7 @@ module "encyrpted_secrets_bucket" {
     client_key_data         = module.cce.cluster_credentials.client_key_data
     cce_id                  = module.cce.cluster_id
     cce_name                = module.cce.cluster_name
-  }
-  tags = local.tags
+  })
 }
 
 resource "null_resource" "get_kube_config" {

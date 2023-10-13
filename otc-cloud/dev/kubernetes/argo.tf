@@ -38,7 +38,7 @@ resource "helm_release" "argocd" {
           projectValues = {
             # Set this to enable stage $STAGE-values.yaml
             stage             = var.stage
-            traefikElbId      = module.terraform_secrets_from_encrypted_s3_bucket.secrets["elb_id"]
+            traefikElbId      = local.secrets["elb_id"]
             rootDomain        = var.domain_name
             basicAuthPassword = random_password.basic_auth_password.result
           }
