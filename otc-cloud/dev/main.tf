@@ -1,9 +1,10 @@
 module "tf_state_bucket" {
-  source = "../../modules/state_bucket"
+  source  = "git::https://github.com/iits-consulting/terraform-opentelekomcloud-project-factory.git//modules/state_bucket?ref=feature/tf-state"
   tf_state_bucket_name = "${var.context}-${var.stage}-tfstate"
   providers = {
     opentelekomcloud = opentelekomcloud.top_level_project
   }
+  region = var.region
 }
 
 output "terraform_state_backend_configs" {
@@ -51,6 +52,23 @@ module "cce" {
 
   autoscaler_node_min = var.cluster_config.nodes_count
   autoscaler_node_max = var.cluster_config.nodes_max
+
+  tags = local.tags
+}
+
+module "cce_gpu_node_pool" {
+  source  = "git::https://github.com/iits-consulting/terraform-opentelekomcloud-project-factory.git//modules/cce_gpu_node_pool?ref=feature/gpu-node-pool"
+
+  name_prefix                     = module.cce.cluster_name
+  cce_cluster_id                  = module.cce.cluster_id
+  node_availability_zones         = ["eu-de-01"]
+  node_flavor                     = local.gpu_node_config.node_flavor
+  node_storage_type               = local.gpu_node_config.node_storage_type
+  node_storage_size               = local.gpu_node_config.node_storage_size
+  node_count                      = local.gpu_node_config.node_count
+  node_storage_encryption_enabled = false
+  autoscaler_node_max             = local.gpu_node_config.nodes_max
+  gpu_driver_url                  = local.gpu_node_config.gpu_driver_url
 
   tags = local.tags
 }

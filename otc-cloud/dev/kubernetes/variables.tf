@@ -3,7 +3,7 @@ module "terraform_secrets_from_encrypted_s3_bucket" {
   version           = "5.7.1"
   bucket_name       = replace(lower("${var.region}-${var.context}-${var.stage}-stage-secrets"), "_", "-")
   bucket_object_key = "terraform-secrets"
-  required_secrets = [
+  required_secrets  = [
     "elb_id",
     "elb_public_ip",
     "kubectl_config",
@@ -21,8 +21,12 @@ locals {
     otc_storage_classes   = "2.0.2"
     crds                  = "1.6.3"
     argo                  = "15.0.1"
-    kyverno               = "1.2.1"
-    iits_kyverno_policies = "1.5.0"
+    kyverno               = "1.3.2"
+    iits_kyverno_policies = "1.5.1"
+    traefik               = "21.2.1"
+    cert-manager          = "1.0.0"
+    iits_llm_fullstack    = "0.2.0"
+    ollama                = "0.6.12"
   }
 }
 

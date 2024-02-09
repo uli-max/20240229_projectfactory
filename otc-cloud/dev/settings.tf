@@ -1,5 +1,6 @@
 terraform {
   required_version = ">=v1.4.6"
+
   backend "s3" {
     //TODO
   }

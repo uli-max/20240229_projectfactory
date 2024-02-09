@@ -1,0 +1,18 @@
+ollama:
+  ollama:
+    gpu:
+      number: 1
+  ingress:
+    host: "${domain_name}"
+  resources:
+    requests:
+      memory: 8Gi
+      cpu: 2
+    limits:
+      memory: 16Gi
+      cpu: 4
+webui:
+  env:
+    OLLAMA_API_BASE_URL: "https://${domain_name}/api"
+  ingress:
+    host: "${domain_name}"
