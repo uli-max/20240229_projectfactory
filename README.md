@@ -6,6 +6,13 @@ During this Workshop/Blueprint you will learn the basics about proper automation
 
 **Please keep in mind this workshop just teaches the basics. For a proper and secure production setup please contact us at kontakt@iits-consulting.de**
 
+## What do we want to achieve ?
+
+![ollama-webui-with-rag.bmp](documentation%2Follama-webui-with-rag.bmp)
+
+In this screenshot you see a local Ollama with a custom WebUI running on OTC with Kubernetes and GPU node pool.
+
+
 ## Tools Requirements
 
 * Install Terraform in the Version 1.4.6 We would recommend to use the tool [tfenv](https://github.com/tfutils/tfenv)
