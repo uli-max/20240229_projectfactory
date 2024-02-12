@@ -63,7 +63,7 @@ module "cce_gpu_node_pool" {
 
   name_prefix                     = module.cce.cluster_name
   cce_cluster_id                  = module.cce.cluster_id
-  node_availability_zones         = ["eu-de-01"]
+  node_availability_zones         = ["eu-de-03"]
   node_flavor                     = local.gpu_node_config.node_flavor
   node_storage_type               = local.gpu_node_config.node_storage_type
   node_storage_size               = local.gpu_node_config.node_storage_size
@@ -101,7 +101,7 @@ module "public_dns" {
   email   = var.email
   a_records = {
     (var.domain_name) = [module.loadbalancer.elb_public_ip]
-    admin             = [module.loadbalancer.elb_public_ip]
+    airbyte             = [module.loadbalancer.elb_public_ip]
   }
 }
 

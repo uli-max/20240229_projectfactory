@@ -1,0 +1,12 @@
+ingress:
+  airbyte:
+    host: "airbyte.${domain_name}"
+ollama:
+  ollama:
+    ingress:
+      host: "${domain_name}"
+  webui:
+    env:
+      OLLAMA_API_BASE_URL: "https://${domain_name}/api"
+    ingress:
+      host: "${domain_name}"

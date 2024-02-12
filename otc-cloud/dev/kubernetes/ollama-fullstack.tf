@@ -1,27 +1,14 @@
-#resource "helm_release" "iits_llm_fullstack" {
-#  name       = "iits-llm-fullstack"
+#resource "helm_release" "ollama_fullstack" {
+#  name       = "iits-ollama-fullstack"
 #  repository = "https://charts.iits.tech"
 #  chart      = "iits-ollama-fullstack"
 #  version    = local.chart_versions.iits_llm_fullstack
 #  namespace  = "llm"
+#  create_namespace = true
 #
 #  values = [
-#    <<-EOF
-#    ingress:
-#      airbyte:
-#        host: "airbyte.${var.domain_name}"
-#    ollama:
-#      ollama:
-#        ollama:
-#          gpu:
-#            number: 2
-#        ingress:
-#          host: "${var.domain_name}"
-#      webui:
-#        env:
-#          OLLAMA_API_BASE_URL: "https://${var.domain_name}/api"
-#        ingress:
-#          host: "${var.domain_name}"
-#    EOF
+#    templatefile("ollama-fullstack-values.yaml", {
+#      domain_name = var.domain_name
+#    })
 #  ]
 #}
