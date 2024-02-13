@@ -8,7 +8,7 @@ During this Workshop/Blueprint you will learn the basics about proper automation
 
 ## What do we want to achieve ?
 
-![ollama-webui-with-rag.bmp](documentation%2Follama-webui-with-rag.bmp)
+https://github.com/iits-consulting/otc-terraform-template/assets/19291722/88fa3699-896d-409c-8d32-23900c38d599
 
 In this screenshot you see a local Ollama with a custom WebUI running on OTC with Kubernetes and GPU node pool.
 
