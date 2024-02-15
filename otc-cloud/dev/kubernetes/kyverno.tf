@@ -16,9 +16,6 @@ resource "helm_release" "kyverno" {
   # The entrypoint to your cluster highly depends on your local setup
   values = [
     yamlencode({
-      enforceSecurityContext = {
-        enabled = false
-      }
       ingress = {
         host = "admin.${var.domain_name}"
       }
@@ -41,6 +38,9 @@ resource "helm_release" "iits_kyverno_policies" {
   render_subchart_notes = true
   dependency_update     = true
   values = sensitive([yamlencode({
+    enforceSecurityContext = {
+      enabled = false
+    }
     autoInjectDockerPullSecrets = {
       enabled = true
       secrets = {
