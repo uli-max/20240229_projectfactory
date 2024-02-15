@@ -62,25 +62,6 @@ variable "dockerhub_password" {
   sensitive   = true
 }
 
-variable "git_token" {
-  type        = string
-  description = "Git Access Token for ArgoCD"
-  sensitive   = true
-}
-
-variable "argocd_bootstrap_project_url" {
-  type        = string
-  description = "Link to the git project which is a fork of this project here: https://github.com/iits-consulting/terraform-opentelekomcloud-project-factory"
-  validation {
-    condition     = !can(regex("iits-consulting", var.argocd_bootstrap_project_url))
-    error_message = "TF_VAR_argocd_bootstrap_project_url is set wrong. Please use your fork and not the iits-consulting repo"
-  }
-  validation {
-    condition     = can(regex("https://github.com", var.argocd_bootstrap_project_url))
-    error_message = "TF_VAR_argocd_bootstrap_project_url is set wrong. Please use the https link from you fork"
-  }
-}
-
 variable "domain_name" {
   type        = string
   description = "The public domain to create public DNS zone for."

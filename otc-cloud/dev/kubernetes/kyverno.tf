@@ -16,6 +16,9 @@ resource "helm_release" "kyverno" {
   # The entrypoint to your cluster highly depends on your local setup
   values = [
     yamlencode({
+      enforceSecurityContext = {
+        enabled = false
+      }
       ingress = {
         host = "admin.${var.domain_name}"
       }
