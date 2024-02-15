@@ -1,9 +1,7 @@
 terraform {
   required_version = ">=v1.4.6"
 
-  backend "s3" {
-    //TODO REPLACE_ME
-  }
+  //TODO add the s3 block here
 
   required_providers {
     opentelekomcloud = {
